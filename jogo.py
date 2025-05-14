@@ -11,7 +11,9 @@ WIDTH = 1280
 HEIGHT = 720
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
-player = Player()
+player_img = pygame.image.load('assets\img\playerShip1_orange.png').convert_alpha()
+
+player = Player(player_img)
 game = True
 
 while game:
