@@ -1,9 +1,11 @@
 import pygame
+from config import * 
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         self.rect = pygame.Rect(0, pygame.display.get_surface().get_height()- 300, 100, 100)
-        self.color = (0,0,0)   # branco
+        self.color = WHITE   # branco
         self.velocidade_y = 0
 
     def draw(self, window):
