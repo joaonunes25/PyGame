@@ -3,6 +3,8 @@
 import pygame
 import random
 from player import *
+from inimigo import *
+
 
 pygame.init()
 
@@ -11,9 +13,11 @@ WIDTH = 1280
 HEIGHT = 720
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
-player_img = pygame.image.load('assets\img\_fantasma1.png').convert_alpha()  
+player_img = pygame.image.load('assets\img\_fantasma1.png').convert_alpha()
+inimigo_img = pygame.transform.scale(pygame.image.load('assets\img\inimigo.jpg').convert_alpha(), (52, 52))  
 
 player = Player(player_img)
+inimigo = Inimigo(inimigo_img)
 game = True
 clock = pygame.time.Clock()
 FPS = 60
@@ -30,8 +34,10 @@ while game:
                 player.jump()
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
-    player.update()
+    inimigo.draw(window)
     player.draw(window)
+    player.update()
+    inimigo.update()
     
     pygame.display.update()  # Mostra o novo frame para o jogador
 
