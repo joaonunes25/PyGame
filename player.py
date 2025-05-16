@@ -1,7 +1,6 @@
 import pygame
 from config import * 
 
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, player_img):
         self.player_img = player_img #pygame.Rect(0, pygame.display.get_surface().get_height()- 300, 100, 100)
