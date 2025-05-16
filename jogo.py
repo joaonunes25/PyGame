@@ -14,7 +14,7 @@ HEIGHT = 720
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 player_img = pygame.image.load('assets\img\_fantasma1.png').convert_alpha()
-inimigo_img = pygame.transform.scale(pygame.image.load('assets\img\inimigo.jpg').convert_alpha(), (52, 52))  
+inimigo_img = pygame.image.load('assets\img\meteorBrown_med1.png').convert_alpha()  
 
 player = Player(player_img)
 inimigo = Inimigo(inimigo_img)

@@ -3,7 +3,7 @@ from config import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, player_img):
-        self.player_img = player_img #pygame.Rect(0, pygame.display.get_surface().get_height()- 300, 100, 100)
+        self.player_img = player_img 
         self.velocidade_y = 0
         self.gravidade = 1
         self.pulo = - 15
@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         if self.estado == 'PARADO':
             self.velocidade_y = self.pulo
-            self.estado = 'PARADO'
+            self.estado = 'PULANDO'
 
     def ataque(self):
         if self.estado != 'ATACANDO':
