@@ -11,25 +11,27 @@ WIDTH = 1280
 HEIGHT = 720
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
-player_img = pygame.image.load('assets\img\playerShip1_orange.png').convert_alpha()
+player_img = pygame.image.load('assets\img\_fantasma1.png').convert_alpha()  
 
 player = Player(player_img)
 game = True
+clock = pygame.time.Clock()
+FPS = 60
 
 while game:
-
+    clock.tick(FPS)
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
-    
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                player.jump()
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
+    player.update()
     player.draw(window)
-    # Desenhando meteoro
-    
-
     
     pygame.display.update()  # Mostra o novo frame para o jogador
 
