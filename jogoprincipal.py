@@ -37,8 +37,7 @@ def iniciar_jogo():
 
     # nivel teste: We will rock you ----------------------------------------------------------------------------
 
-    batida = 1000   # 80 BPM -> 1 batida a cada 750 ms
-    # atraso = 4000  
+    batida = 1000    
     v_inimigo = 300
     tempo_viagem = 500    # viagem até o player
 
@@ -51,7 +50,7 @@ def iniciar_jogo():
             lista_tempo.append(t)    
 
     indice_spawn = 0
-    #--------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------------
 
     game = True
 
@@ -100,9 +99,13 @@ def iniciar_jogo():
             if player.estado == "ATACANDO":
                 player.vida = player.vida
             else:                      
-                player.vida -= 10
+                player.vida -= 5
             if player.vida <= 0:
                 player.vivo = False
+
+            # Quando o player estiver pulando, automaticamente o inimigo é atacado
+            if player.estado == "PULANDO":
+                player.ataque()
 
         # Verfica se o player está vivo para continuar ou não o jogo
         if not player.vivo:              

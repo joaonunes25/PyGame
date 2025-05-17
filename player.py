@@ -8,12 +8,13 @@ class Player(pygame.sprite.Sprite):
         self.y = pygame.display.get_surface().get_height() - 300
         self.rect = pygame.Rect(100, self.y, 32, 48)
         self.velocidade_y = 0
-        self.gravidade = 2
-        self.pulo = - 30
+        self.v_pulo = - 15
         self.estado = 'PARADO'
+        self.pulo = False
+        # self.travado_no_ar = False
 
-        self.tempo_ataque = 0
-        self.duracao_ataque = 1000
+        # Limita a duração do tempo de pulo
+        self.duracao_pulo = 500
 
         # vida do player
         self.vida_max = 100
@@ -21,18 +22,44 @@ class Player(pygame.sprite.Sprite):
         self.vivo = True
 
     def update(self):
+        if self.velocidade_y < 0:
+            self.gravidade = 0.5
+        else:
+            self.gravidade = 0.2
+
         self.velocidade_y += self.gravidade
         self.y += self.velocidade_y
+
+        # if not self.travado_no_ar:
+        #     self.velocidade_y += self.gravidade
+        #     self.y += self.velocidade_y
+        # else:
+        #     self.velocidade_y = 0
 
         if self.y >= pygame.display.get_surface().get_height() - 300:
             self.y = pygame.display.get_surface().get_height() - 300
             self.velocidade_y = 0
+
+        duracao_ataque = 400
+
+        # if self.travado_no_ar:
+        #     if pygame.time.get_ticks() - self.tempo_ataque >= duracao_ataque:
+        #         self.travado_no_ar = False
+        #         self.estado = 'PARADO'
             
-        if self.estado != "ATACANDO":
-            self.estado = 'PARADO'
+        # if self.estado != "ATACANDO":
+        #     self.estado = 'PARADO'
         
         if not self.vivo:
             print('morreu')
+
+        # Verifica se o tempo de pulo já ultrapassou o limite e se o estado do player é atacando para continuar ou não o pulo
+        if self.pulo:
+            tempo_decorrido = pygame.time.get_ticks() - self.tempo_pulo
+            if tempo_decorrido >= self.duracao_pulo:
+                if self.estado != "ATACANDO":
+                    self.estado = "PARADO"
+                    self.pulo = False
             
         # Centralizando o rect no player para detectar a colisão corretamente (código sugerido pelo Chat GPT)
         offset_x = 100 + (self.image.get_width() // 2) - (self.rect.width // 2)
@@ -49,25 +76,28 @@ class Player(pygame.sprite.Sprite):
         self.desenhar_barra_de_vida(window)
 
     def jump(self):
-        if self.estado == 'PARADO':
-            self.velocidade_y = self.pulo
-            self.estado = 'PULANDO'
+        if not self.pulo:
+            self.velocidade_y = self.v_pulo
+            self.pulo = True
+            self.tempo_pulo = pygame.time.get_ticks()
 
     def ataque(self):
         if self.estado != 'ATACANDO':
             self.estado = 'ATACANDO'
-            self.tempo_ataque = pygame.time.get_ticks ()
+            # if self.rect.bottom <= inimigo.rect.top:
+            #     self.travado_no_ar = True
+            #     self.tempo_ataque = pygame.time.get_ticks()
 
     def desenhar_barra_de_vida(self, window):
         if self.vivo:
-            l_barra = 200
-            h_barra = 40
-            x = 40
+            l_barra = 400
+            h_barra = 50
+            x = 420
             y = HEIGHT 
 
             pygame.draw.rect(window, RED, (x, y, l_barra, h_barra))    # Desenhando a barra de vida total
             
-            # calculando a proporção vida/vida maxima
+            # Calculando a proporção vida/vida maxima
             proporcao = self.vida / self.vida_max
             l_vida = l_barra * proporcao
 
