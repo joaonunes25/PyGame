@@ -3,7 +3,6 @@
 import pygame
 import random
 import numpy as np
-from init_screen import *
 from player import *
 from inimigo import *
 # from niveis import *
@@ -20,6 +19,10 @@ def iniciar_jogo():
     WIDTH = 1280
     HEIGHT = 720
     window = pygame.display.set_mode((WIDTH, HEIGHT)) 
+    pygame.display.set_caption("Ghost Dash")
+
+    fundo_img = pygame.image.load("assets\img\moon_background.jpeg").convert_alpha()
+    fundo_img = pygame.transform.scale(fundo_img, (WIDTH,HEIGHT))
 
     player_img = pygame.image.load('assets\img\_fantasma1.png').convert_alpha()
     inimigo_img = pygame.image.load('assets\img\meteorBrown_med1.png').convert_alpha()   
@@ -92,6 +95,19 @@ def iniciar_jogo():
         player.update()
         gp_inimigo.update()
 
+        # Verifica se houve colisão com o player e atualiza a barra de vida
+        if colisao:
+            if player.estado == "ATACANDO":
+                player.vida = player.vida
+            else:                      
+                player.vida -= 10
+            if player.vida <= 0:
+                player.vivo = False
+
+        # Verfica se o player está vivo para continuar ou não o jogo
+        if not player.vivo:              
+            game = False
+
         for inimigo in colisao:
             if player.estado == "ATACANDO":
                 print("Acertou")
@@ -103,12 +119,13 @@ def iniciar_jogo():
             
             inimigo.kill()
 
-        for inimigo in gp_inimigo:     # Mata os inimigos que não são atingidos e passam do limite da tela
+        # Mata os inimigos que não são atingidos e passam do limite da tela
+        for inimigo in gp_inimigo:     
             if inimigo.rect.x <= 0:
                 inimigo.kill()
 
         # ----- Gera saídas
-        window.fill((0, 0, 0))  # Preenche com a cor preta
+        window.blit(fundo_img, (0,0))  # Substitui imagem de fundo 
 
         # desenhando os personagens do jogo
         player.draw(window)
