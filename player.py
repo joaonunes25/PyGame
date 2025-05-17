@@ -3,7 +3,6 @@ from config import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, player_img):
-        # self.player_img = player_img 
         self.image = player_img
         self.y = pygame.display.get_surface().get_height() - 300
         self.rect = pygame.Rect(100, self.y, 32, 48)
@@ -41,6 +40,6 @@ class Player(pygame.sprite.Sprite):
             self.estado = 'PULANDO'
 
     def ataque(self):
-        # if self.estado != 'ATACANDO':
-        self.estado = 'ATACANDO'
-            # self.tempo_ataque = pygame.time.get_ticks ()
+        if self.estado != 'ATACANDO':
+            self.estado = 'ATACANDO'
+            self.tempo_ataque = pygame.time.get_ticks ()
