@@ -4,19 +4,16 @@ from player import *
 
 class Inimigo(pygame.sprite.Sprite):
     def __init__(self, inimigo_img):
-        pos_inicial = (pygame.display.get_surface().get_width() - 100, pygame.display.get_surface().get_height() - 100)
-        self.inimigo_img = inimigo_img
-        self.rect = self.inimigo_img.get_rect(center = pos_inicial)
-        self.velocidade_x = 5    # se move apenas em x
-        self.x = 5
+        super().__init__()
+        pos_inicial = (pygame.display.get_surface().get_width() - 100, pygame.display.get_surface().get_height() - 210)
+        self.image = inimigo_img
+        self.rect = self.image.get_rect(center = pos_inicial)
+        self.velocidade_x = 5               # se move apenas em x
     
     def update(self):
-        self.x += self.velocidade_x
-
-        if self.x >= pygame.display.get_surface().get_width() + 100:
-            self.x = pygame.display.get_surface().get_width() + 100
-            self.x = 0
-            self.estado = 'PARADO'
+        self.rect.x -= self.velocidade_x
+        if self.rect.x < 0:
+            self.rect.x = pygame.display.get_surface().get_width() + 100
 
     def mover_em_direcao(self, player,velocidade_x):
         # Posições como vetores
@@ -30,6 +27,3 @@ class Inimigo(pygame.sprite.Sprite):
             movimento = direcao * velocidade_x
             self.pos.rect.centerx += movimento.x
          
-
-    def draw(self, window):
-        window.blit(self.inimigo_img, (self.x, pygame.display.get_surface().get_height() - 240))
