@@ -28,7 +28,7 @@ def iniciar_jogo():
     fundo3 = pygame.image.load("D:/PYGAME/fundo/fundo3.png").convert_alpha()  # nuvens
 
     fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
-    fundo2 = pygame.transform.scale(fundo2, (1152, 648))  # lua menor
+    fundo2 = pygame.transform.scale(fundo2, (1152, 648))  # lua maior
     fundo3 = pygame.transform.scale(fundo3, (WIDTH, HEIGHT))
 
     # Posições iniciais
@@ -51,7 +51,7 @@ def iniciar_jogo():
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
 
     clock = pygame.time.Clock()
-    FPS = 60
+    FPS = 60000
     gp_inimigo = pygame.sprite.Group()
 
     batida = 1000
@@ -114,7 +114,7 @@ def iniciar_jogo():
             x1 = 0
         if x3 <= -WIDTH:
             x3 = 0
-        if x_lua < -180:
+        if x_lua < -fundo2.get_width():
             x_lua = WIDTH
 
         # ----- Desenho dos fundos -----
