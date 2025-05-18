@@ -6,13 +6,10 @@ import numpy as np
 from player import *
 from inimigo import *
 
-
-# testando branch
-
 def iniciar_jogo():
     pygame.init()
 
-    pygame.mixer.music.load("D:/PYGAME/music/music1.mp3")
+    pygame.mixer.music.load("assets\snd\music\music1.mp3")
     pygame.mixer.music.play(start=4.0)
 
     inicio_jogo = pygame.time.get_ticks()
@@ -23,9 +20,9 @@ def iniciar_jogo():
     pygame.display.set_caption("Ghost Dash")
 
     # Carrega camadas do fundo
-    fundo1 = pygame.image.load("D:/PYGAME/fundo/fundo1.png").convert_alpha()  # estrelas
-    fundo2 = pygame.image.load("D:/PYGAME/fundo/fundo2.png").convert_alpha()  # lua
-    fundo3 = pygame.image.load("D:/PYGAME/fundo/fundo3.png").convert_alpha()  # nuvens
+    fundo1 = pygame.image.load("assets\img\_fundo1.png").convert_alpha()  # estrelas
+    fundo2 = pygame.image.load("assets\img\_fundo2.png").convert_alpha()  # lua
+    fundo3 = pygame.image.load("assets\img\_fundo3.png").convert_alpha()  # nuvens
 
     fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
     fundo2 = pygame.transform.scale(fundo2, (1152, 648))  # lua maior
@@ -43,9 +40,9 @@ def iniciar_jogo():
             ) for i in range(1, quantidade + 1)
         ]
 
-    sprites_parado = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 4, tamanho=(250, 250))
-    sprites_pulando = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 1, tamanho=(250, 250))
-    sprites_atacando = carregar_sprites("D:/PYGAME/fantasma/atacando/atacando", 5, tamanho=(250, 250))
+    sprites_parado = carregar_sprites("assets\img\_fantasma\parado", 4, tamanho=(250, 250))
+    sprites_pulando = carregar_sprites("assets\img\_fantasma\parado", 1, tamanho=(250, 250))
+    sprites_atacando = carregar_sprites("assets\img\_fantasma\_atacando", 5, tamanho=(250, 250))
 
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
@@ -67,7 +64,7 @@ def iniciar_jogo():
         tempo_atual = pygame.time.get_ticks() - inicio_jogo
 
         while indice_spawn < len(lista_tempo) and tempo_atual >= lista_tempo[indice_spawn]:
-            inimigo = Inimigo("D:/PYGAME/inimigos/abobora.png")
+            inimigo = Inimigo("assets\img\inimigos")
             distancia = int(v_inimigo * (tempo_viagem / 1000))
             inimigo.rect.x = WIDTH + distancia
             inimigo.rect.y = random.choice([HEIGHT - 230, HEIGHT - 400])
@@ -99,7 +96,10 @@ def iniciar_jogo():
             game = False
 
         for inimigo in colisao:
-            print("Acertou" if player.estado == "ATACANDO" else "Errou")
+            if player.estado == "ATACANDO":
+                print("Acertou")
+            else:
+                print("Errou")
             inimigo.kill()
 
         for inimigo in gp_inimigo:

@@ -78,9 +78,11 @@ class Player(pygame.sprite.Sprite):
                 self.estado = "PARADO"
                 self.pulo = False
 
+        # Centralizando o rect no player para detectar a colisão corretamente (código sugerido pelo Chat GPT)
         offset_x = 100 + (self.image.get_width() // 2) - (self.rect.width // 2)
         offset_y = self.y + (self.image.get_height() // 2) - (self.rect.height // 2)
         self.rect.topleft = (offset_x, offset_y)
+        # --------------------------------------------------------------------------------------------------
 
         if not self.vivo:
             print('morreu')
@@ -112,7 +114,12 @@ class Player(pygame.sprite.Sprite):
             x = 420
             y = HEIGHT
 
+            # Desenha a barra de vida total
             pygame.draw.rect(window, RED, (x, y, l_barra, h_barra))
+
+            # Calcula a proporção vida/vida total
             proporcao = self.vida / self.vida_max
             l_vida = l_barra * proporcao
+
+            # Desenha a vida atual do player
             pygame.draw.rect(window, GREEN, (x, y, l_vida, h_barra))
