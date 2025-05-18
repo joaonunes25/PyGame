@@ -35,12 +35,18 @@ def iniciar_jogo():
     x1 = x3 = 0
     x_lua = WIDTH - 200
 
-    def carregar_sprites(caminho_base, quantidade):
-        return [pygame.image.load(f"{caminho_base}{i}.png").convert_alpha() for i in range(1, quantidade + 1)]
+    def carregar_sprites(caminho_base, quantidade, tamanho=(150, 150)):  # tamanho novo
+        return [
+            pygame.transform.scale(
+                pygame.image.load(f"{caminho_base}{i}.png").convert_alpha(), 
+                tamanho
+            ) for i in range(1, quantidade + 1)
+        ]
 
-    sprites_parado = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 4)
-    sprites_pulando = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 1)
-    sprites_atacando = carregar_sprites("D:/PYGAME/fantasma/atacando/atacando", 5)
+    sprites_parado = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 4, tamanho=(250, 250))
+    sprites_pulando = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 1, tamanho=(250, 250))
+    sprites_atacando = carregar_sprites("D:/PYGAME/fantasma/atacando/atacando", 5, tamanho=(250, 250))
+
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
 

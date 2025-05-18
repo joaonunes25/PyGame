@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.vida = self.vida_max
         self.vivo = True
 
-        self.tempo_animacao = 50
+        self.tempo_animacao = 70
         self.ultimo_update = pygame.time.get_ticks()
 
         for estado, sprites in self.sprites_por_estado.items():
