@@ -5,12 +5,12 @@ import random
 import numpy as np
 from player import *
 from inimigo import *
-# from niveis import *
+
 
 def iniciar_jogo():
     pygame.init()
 
-    pygame.mixer.music.load("assets/snd/we will rock you.mp3")
+    pygame.mixer.music.load("D:/PYGAME/music/music1.mp3")
     pygame.mixer.music.play(start=4.0)
 
     inicio_jogo = pygame.time.get_ticks()
@@ -20,12 +20,19 @@ def iniciar_jogo():
     window = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ghost Dash")
 
-    # Carrega sprites e imagens
-    # fundo_img = pygame.image.load("assets/img/moon_background.jpeg").convert_alpha()
-    fundo_img = pygame.image.load("assets/img/moon_background.jpeg").convert_alpha()
-    fundo_img = pygame.transform.scale(fundo_img, (WIDTH, HEIGHT))
+    # Carrega camadas do fundo
+    fundo1 = pygame.image.load("D:/PYGAME/fundo/fundo1.png").convert_alpha()  # estrelas
+    fundo2 = pygame.image.load("D:/PYGAME/fundo/fundo2.png").convert_alpha()  # lua
+    fundo3 = pygame.image.load("D:/PYGAME/fundo/fundo3.png").convert_alpha()  # nuvens
 
-    # >>> Carrega sprites do player como lista
+    fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
+    fundo2 = pygame.transform.scale(fundo2, (1152, 648))  # lua menor
+    fundo3 = pygame.transform.scale(fundo3, (WIDTH, HEIGHT))
+
+    # Posições iniciais
+    x1 = x3 = 0
+    x_lua = WIDTH - 200
+
     def carregar_sprites(caminho_base, quantidade):
         return [pygame.image.load(f"{caminho_base}{i}.png").convert_alpha() for i in range(1, quantidade + 1)]
 
@@ -35,120 +42,85 @@ def iniciar_jogo():
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
 
-    inimigo_img = pygame.image.load('assets/img/meteorBrown_med1.png').convert_alpha()
-   
-
-    # inimigo = Inimigo(inimigo_img)
-
     clock = pygame.time.Clock()
     FPS = 60
-
     gp_inimigo = pygame.sprite.Group()
 
-    # nivel teste: We will rock you ----------------------------------------------------------------------------
-
-    batida = 1000    
+    batida = 1000
     v_inimigo = 300
-    tempo_viagem = 500    # viagem até o player
-
-    tempo_musica = np.arange(0, 134000 , batida) # ms
-    lista_tempo = []
-
-    for i in (tempo_musica):
-        t = i - tempo_viagem               # cria o inimigo antes para que ele chegue no tempo correto ao player
-        if t >= 0:
-            lista_tempo.append(t)    
-
+    tempo_viagem = 500
+    tempo_musica = np.arange(0, 134000 , batida)
+    lista_tempo = [t - tempo_viagem for t in tempo_musica if t - tempo_viagem >= 0]
     indice_spawn = 0
-    #-----------------------------------------------------------------------------------------------------------
 
     game = True
-
     while game:
         clock.tick(FPS)
-
         tempo_atual = pygame.time.get_ticks() - inicio_jogo
 
-        # Sugerido pelo Chat GPT -> Verificação se o momento de spawnar um inimigo está correto
-
-        while indice_spawn< len(lista_tempo) and tempo_atual >= lista_tempo[indice_spawn]:
-            inimigo = Inimigo(inimigo_img)
-
-            # Cálculo da distância para ele chegar no player exatamente em tempo_viagem
+        while indice_spawn < len(lista_tempo) and tempo_atual >= lista_tempo[indice_spawn]:
+            inimigo = Inimigo("D:/PYGAME/inimigos/abobora.png")
             distancia = int(v_inimigo * (tempo_viagem / 1000))
             inimigo.rect.x = WIDTH + distancia
-
-            # Posições verticais possíveis
             inimigo.rect.y = random.choice([HEIGHT - 230, HEIGHT - 400])
-        
             gp_inimigo.add(inimigo)
             indice_spawn += 1
-        # -------------------------------------------------------------------------------------
 
-        # ----- Trata eventos
         for event in pygame.event.get():
-            # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_k or event.key == pygame.K_j:
+                if event.key in [pygame.K_k, pygame.K_j]:
                     player.jump()
-                if event.key == pygame.K_f or event.key == pygame.K_d:
-                    player.ataque()
-            if event.type == pygame.KEYUP:
-                if event.key in [pygame.K_k, pygame.K_j] and player.estado != "ATACANDO":
-                    player.estado = "PARADO"
+                elif event.key in [pygame.K_f, pygame.K_d]:
+                    player.ataque(indice_inicio=2)
 
         colisao = pygame.sprite.spritecollide(player, gp_inimigo, False)
-
         player.update()
         gp_inimigo.update()
 
-        # Verifica se houve colisão com o player e atualiza a barra de vida
         if colisao:
-            if player.estado == "ATACANDO":
-                player.vida = player.vida
-            else:                      
+            if player.estado != "ATACANDO":
                 player.vida -= 5
-            if player.vida <= 0:
-                player.vivo = False
-
-            # Quando o player estiver pulando, automaticamente o inimigo é atacado
+                if player.vida <= 0:
+                    player.vivo = False
             if player.estado == "PULANDO":
-                player.ataque()
+                player.ataque(indice_inicio=2)
 
-        # Verfica se o player está vivo para continuar ou não o jogo
-        if not player.vivo:              
+        if not player.vivo:
             game = False
 
         for inimigo in colisao:
-            if player.estado == "ATACANDO":
-                print("Acertou")
-                print(player.estado)
-            else:
-                pass
-                print("Errou")
-                print(player.estado)
-            
+            print("Acertou" if player.estado == "ATACANDO" else "Errou")
             inimigo.kill()
 
-        # Mata os inimigos que não são atingidos e passam do limite da tela
-        for inimigo in gp_inimigo:     
+        for inimigo in gp_inimigo:
             if inimigo.rect.x <= 0:
                 inimigo.kill()
 
-        # ----- Gera saídas
-        window.blit(fundo_img, (0,0))  # Substitui imagem de fundo 
+        # ----- Movimento dos fundos -----
+        x1 -= 0.2
+        x3 -= 1.2
+        x_lua -= 0.3
+        if x1 <= -WIDTH:
+            x1 = 0
+        if x3 <= -WIDTH:
+            x3 = 0
+        if x_lua < -180:
+            x_lua = WIDTH
 
-        # desenhando os personagens do jogo
+        # ----- Desenho dos fundos -----
+        window.blit(fundo1, (x1, 0))
+        window.blit(fundo1, (x1 + WIDTH, 0))
+
+        window.blit(fundo2, (x_lua, 80))
+
+        window.blit(fundo3, (x3, 0))
+        window.blit(fundo3, (x3 + WIDTH, 0))
+
         player.draw(window)
         gp_inimigo.draw(window)
 
-        player.update()
-        gp_inimigo.update()
-        
-        pygame.display.update()  # Mostra o novo frame para o jogador
+        pygame.display.update()
 
-    # ===== Finalização =====
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
-
+    pygame.quit()
