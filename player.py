@@ -2,26 +2,68 @@ import pygame
 from config import * 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, player_img):
+
+    def __init__(self, sprites_parado, sprites_pulando, sprites_atacando):
         super().__init__()
-        self.image = player_img
+        self.sprites_por_estado = {
+            'PARADO': sprites_parado,
+            'PULANDO': sprites_pulando,
+            'ATACANDO': sprites_atacando
+        }
+
+        # Limita a duração do tempo de pulo
+        self.estado = 'PARADO'
+        self.sprites = self.sprites_por_estado[self.estado]
+        self.index = 0
+        self.image = self.sprites[self.index]
+        # self.travado_no_ar = False
+
         self.y = pygame.display.get_surface().get_height() - 300
         self.rect = pygame.Rect(100, self.y, 32, 48)
         self.velocidade_y = 0
-        self.v_pulo = - 15
-        self.estado = 'PARADO'
+        self.v_pulo = -15
         self.pulo = False
-        # self.travado_no_ar = False
+        
+        #ataque
+        self.tempo_ataque = 0
+        self.duracao_ataque = 20  # ms
+        self.pode_atacar = True
 
-        # Limita a duração do tempo de pulo
+
+        
         self.duracao_pulo = 500
 
         # vida do player
         self.vida_max = 100
         self.vida = self.vida_max
         self.vivo = True
+        
+        # Controle de animação
+        self.tempo_animacao = 100
+        self.ultimo_update = pygame.time.get_ticks()
+        for estado, sprites in self.sprites_por_estado.items():
+            for i, img in enumerate(sprites):
+                if img.get_width() == 0 or img.get_height() == 0:
+                    print(f"⚠️ Imagem vazia em {estado} - índice {i}")
+                else:
+                    print(f"✅ Sprite {estado}[{i}] OK: {img.get_width()}x{img.get_height()}")
+
+        
+    def animar(self):
+        nova_spritesheet = self.sprites_por_estado[self.estado]
+        if nova_spritesheet != self.sprites:
+            self.sprites = nova_spritesheet
+            self.index = 0
+
+        agora = pygame.time.get_ticks()
+        if agora - self.ultimo_update > self.tempo_animacao:
+            self.ultimo_update = agora
+            self.index = (self.index + 1) % len(self.sprites)
+            self.image = self.sprites[self.index]
 
     def update(self):
+        self.animar()
+        
         if self.velocidade_y < 0:
             self.gravidade = 0.5
         else:
@@ -40,7 +82,20 @@ class Player(pygame.sprite.Sprite):
             self.y = pygame.display.get_surface().get_height() - 300
             self.velocidade_y = 0
 
-        duracao_ataque = 400
+        # duracao_ataque = 400 # (remova ou ignore completamente essa linha — ela é redundante) - SUGESTÃO CHAT-GPT
+        
+        if self.estado == "ATACANDO":
+            if self.index == len(self.sprites) - 1:
+                if pygame.time.get_ticks() - self.ultimo_update >= self.tempo_animacao:
+                    self.pode_atacar = True  # libera novo ataque
+                    if self.pulo:
+                        self.estado = "PULANDO"
+                    else:
+                        self.estado = "PARADO"
+
+
+
+
 
         # if self.travado_no_ar:
         #     if pygame.time.get_ticks() - self.tempo_ataque >= duracao_ataque:
@@ -60,6 +115,15 @@ class Player(pygame.sprite.Sprite):
                 if self.estado != "ATACANDO":
                     self.estado = "PARADO"
                     self.pulo = False
+        if self.estado == "ATACANDO":
+            if self.index == len(self.sprites) - 1:
+                if pygame.time.get_ticks() - self.ultimo_update >= self.tempo_animacao:
+                    self.pode_atacar = True  # libera novo ataque
+                    if self.pulo:
+                        self.estado = "PULANDO"
+                    else:
+                        self.estado = "PARADO"
+
             
         # Centralizando o rect no player para detectar a colisão corretamente (código sugerido pelo Chat GPT)
         offset_x = 100 + (self.image.get_width() // 2) - (self.rect.width // 2)
@@ -82,8 +146,12 @@ class Player(pygame.sprite.Sprite):
             self.tempo_pulo = pygame.time.get_ticks()
 
     def ataque(self):
-        if self.estado != 'ATACANDO':
+        if self.estado != 'ATACANDO' and self.pode_atacar:
             self.estado = 'ATACANDO'
+            self.tempo_ataque = pygame.time.get_ticks()
+            self.pode_atacar = False  # trava até a animação acabar
+
+
             # if self.rect.bottom <= inimigo.rect.top:
             #     self.travado_no_ar = True
             #     self.tempo_ataque = pygame.time.get_ticks()

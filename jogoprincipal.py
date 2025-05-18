@@ -10,24 +10,34 @@ from inimigo import *
 def iniciar_jogo():
     pygame.init()
 
-    pygame.mixer.music.load("assets\snd\we will rock you.mp3")
-    pygame.mixer.music.play(start= 4.0)
+    pygame.mixer.music.load("assets/snd/we will rock you.mp3")
+    pygame.mixer.music.play(start=4.0)
 
     inicio_jogo = pygame.time.get_ticks()
 
-    # ----- Gera tela principal
     WIDTH = 1280
     HEIGHT = 720
-    window = pygame.display.set_mode((WIDTH, HEIGHT)) 
+    window = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ghost Dash")
 
-    fundo_img = pygame.image.load("assets\img\moon_background.jpeg").convert_alpha()
-    fundo_img = pygame.transform.scale(fundo_img, (WIDTH,HEIGHT))
+    # Carrega sprites e imagens
+    # fundo_img = pygame.image.load("assets/img/moon_background.jpeg").convert_alpha()
+    fundo_img = pygame.image.load("assets/img/moon_background.jpeg").convert_alpha()
+    fundo_img = pygame.transform.scale(fundo_img, (WIDTH, HEIGHT))
 
-    player_img = pygame.image.load('assets\img\_fantasma1.png').convert_alpha()
-    inimigo_img = pygame.image.load('assets\img\meteorBrown_med1.png').convert_alpha()   
+    # >>> Carrega sprites do player como lista
+    def carregar_sprites(caminho_base, quantidade):
+        return [pygame.image.load(f"{caminho_base}{i}.png").convert_alpha() for i in range(1, quantidade + 1)]
 
-    player = Player(player_img)
+    sprites_parado = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 4)
+    sprites_pulando = carregar_sprites("D:/PYGAME/fantasma/parado/VOANDO", 1)
+    sprites_atacando = carregar_sprites("D:/PYGAME/fantasma/atacando/atacando", 5)
+
+    player = Player(sprites_parado, sprites_pulando, sprites_atacando)
+
+    inimigo_img = pygame.image.load('assets/img/meteorBrown_med1.png').convert_alpha()
+   
+
     # inimigo = Inimigo(inimigo_img)
 
     clock = pygame.time.Clock()
@@ -86,7 +96,7 @@ def iniciar_jogo():
                 if event.key == pygame.K_f or event.key == pygame.K_d:
                     player.ataque()
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_k or event.key == pygame.K_j or event.key == pygame.K_f or event.key == pygame.K_d:
+                if event.key in [pygame.K_k, pygame.K_j] and player.estado != "ATACANDO":
                     player.estado = "PARADO"
 
         colisao = pygame.sprite.spritecollide(player, gp_inimigo, False)
