@@ -40,9 +40,9 @@ def iniciar_jogo():
             ) for i in range(1, quantidade + 1)
         ]
 
-    sprites_parado = carregar_sprites("assets\img\_fantasma\parado", 4, tamanho=(250, 250))
-    sprites_pulando = carregar_sprites("assets\img\_fantasma\parado", 1, tamanho=(250, 250))
-    sprites_atacando = carregar_sprites("assets\img\_fantasma\_atacando", 5, tamanho=(250, 250))
+    sprites_parado = carregar_sprites("assets\img\_fantasma\parado\VOANDO", 4, tamanho=(250, 250))
+    sprites_pulando = carregar_sprites("assets\img\_fantasma\pulando\pulando", 4, tamanho=(250, 250))
+    sprites_atacando = carregar_sprites("assets\img\_fantasma\_atacando\_atacando", 5, tamanho=(250, 250))
 
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
@@ -64,7 +64,7 @@ def iniciar_jogo():
         tempo_atual = pygame.time.get_ticks() - inicio_jogo
 
         while indice_spawn < len(lista_tempo) and tempo_atual >= lista_tempo[indice_spawn]:
-            inimigo = Inimigo("assets\img\inimigos")
+            inimigo = Inimigo("assets\img\inimigos\_abobora.png")
             distancia = int(v_inimigo * (tempo_viagem / 1000))
             inimigo.rect.x = WIDTH + distancia
             inimigo.rect.y = random.choice([HEIGHT - 230, HEIGHT - 400])
