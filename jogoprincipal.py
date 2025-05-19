@@ -41,7 +41,7 @@ def iniciar_jogo():
         ]
 
     sprites_parado = carregar_sprites("assets\img\_fantasma\parado\VOANDO", 4, tamanho=(250, 250))
-    sprites_pulando = carregar_sprites("assets\img\_fantasma\pulando\pulando", 4, tamanho=(250, 250))
+    sprites_pulando = carregar_sprites("assets\img\_fantasma\parado\VOANDO", 4, tamanho=(250, 250))
     sprites_atacando = carregar_sprites("assets\img\_fantasma\_atacando\_atacando", 5, tamanho=(250, 250))
 
 
