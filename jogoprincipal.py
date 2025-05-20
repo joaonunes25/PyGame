@@ -86,13 +86,14 @@ def iniciar_jogo():
         gp_inimigo.update()
 
         if colisao:
+            if player.estado == "PULANDO":
+                player.ataque(indice_inicio=2)
+
             if player.estado != "ATACANDO":
                 player.vida -= 5
                 if player.vida <= 0:
                     player.vivo = False
-            if player.estado == "PULANDO":
-                player.ataque(indice_inicio=2)
-
+            
         if not player.vivo:
             pygame.mixer.music.stop()
             tela_game_over(window, WIDTH, HEIGHT)
