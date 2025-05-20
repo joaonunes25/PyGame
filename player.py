@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.y = pygame.display.get_surface().get_height() - 300
         self.rect = pygame.Rect(100, self.y, 32, 48)
         self.velocidade_y = 0
-        self.v_pulo = -15
+        self.v_pulo = -18
         self.pulo = False
         self.no_chao = True
 
@@ -31,12 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.tempo_animacao = 70
         self.ultimo_update = pygame.time.get_ticks()
 
-        for estado, sprites in self.sprites_por_estado.items():
-            for i, img in enumerate(sprites):
-                if img.get_width() == 0 or img.get_height() == 0:
-                    print(f" Imagem vazia em {estado} - índice {i}")
-                else:
-                    print(f" Sprite {estado}[{i}] OK: {img.get_width()}x{img.get_height()}")
+
 
     def animar(self):
         nova_spritesheet = self.sprites_por_estado[self.estado]
@@ -58,7 +53,10 @@ class Player(pygame.sprite.Sprite):
         self.animar()
 
         # Aumenta a gravidade para cair mais rápido
-        self.gravidade = 1.2 if self.velocidade_y >= 0 else 0.5
+        if self.velocidade_y >= 0:
+            self.gravidade = 1
+        else:
+            self.gravidade = 0.8
         self.velocidade_y += self.gravidade
         self.y += self.velocidade_y
 

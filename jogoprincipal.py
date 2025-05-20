@@ -5,12 +5,13 @@ import random
 import numpy as np
 from player import *
 from inimigo import *
+from tela_game_over import *
 
 def iniciar_jogo():
     pygame.init()
 
     pygame.mixer.music.load("assets\snd\music\music1.mp3")
-    pygame.mixer.music.play(start=4.0)
+    pygame.mixer.music.play()
 
     inicio_jogo = pygame.time.get_ticks()
 
@@ -48,7 +49,7 @@ def iniciar_jogo():
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
 
     clock = pygame.time.Clock()
-    FPS = 60000
+    FPS = 60
     gp_inimigo = pygame.sprite.Group()
 
     batida = 1000
@@ -93,7 +94,9 @@ def iniciar_jogo():
                 player.ataque(indice_inicio=2)
 
         if not player.vivo:
-            game = False
+            pygame.mixer.music.stop()
+            tela_game_over(window, WIDTH, HEIGHT)
+            iniciar_jogo()
 
         for inimigo in colisao:
             if player.estado == "ATACANDO":
