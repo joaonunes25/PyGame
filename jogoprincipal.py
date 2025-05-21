@@ -1,16 +1,15 @@
-# ===== Inicialização =====
-# ----- Importa e inicia pacotes
 import pygame
 import random
 import numpy as np
 from player import *
 from inimigo import *
 from tela_game_over import *
+from assets import *
 
 def iniciar_jogo():
     pygame.init()
 
-    pygame.mixer.music.load("assets\snd\music\music1.mp3")
+    pygame.mixer.music.load(snd1)
     pygame.mixer.music.play()
 
     inicio_jogo = pygame.time.get_ticks()
@@ -20,36 +19,19 @@ def iniciar_jogo():
     window = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ghost Dash")
 
-    # Carrega camadas do fundo
-    fundo1 = pygame.image.load("assets\img\_fundo1.png").convert_alpha()  # estrelas
-    fundo2 = pygame.image.load("assets\img\_fundo2.png").convert_alpha()  # lua
-    fundo3 = pygame.image.load("assets\img\_fundo3.png").convert_alpha()  # nuvens
-
-    fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
-    fundo2 = pygame.transform.scale(fundo2, (1152, 648))  # lua maior
-    fundo3 = pygame.transform.scale(fundo3, (WIDTH, HEIGHT))
-
     # Posições iniciais
     x1 = x3 = 0
     x_lua = WIDTH - 200
 
-    def carregar_sprites(caminho_base, quantidade, tamanho=(150, 150)):  # tamanho novo
-        return [
-            pygame.transform.scale(
-                pygame.image.load(f"{caminho_base}{i}.png").convert_alpha(), 
-                tamanho
-            ) for i in range(1, quantidade + 1)
-        ]
-
-    sprites_parado = carregar_sprites("assets\img\_fantasma\parado\VOANDO", 4, tamanho=(250, 250))
-    sprites_pulando = carregar_sprites("assets\img\_fantasma\parado\VOANDO", 4, tamanho=(250, 250))
-    sprites_atacando = carregar_sprites("assets\img\_fantasma\_atacando\_atacando", 5, tamanho=(250, 250))
-
+    sprites_parado = carregar_sprites(fantasma_voando, 4, tamanho=(250, 250))
+    sprites_pulando = carregar_sprites(fantasma_pulo, 4, tamanho=(250, 250))
+    sprites_atacando = carregar_sprites(fantasma_ataque, 5, tamanho=(250, 250))
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
 
     clock = pygame.time.Clock()
     FPS = 60
+
     gp_inimigo = pygame.sprite.Group()
 
     batida = 1000
@@ -65,7 +47,7 @@ def iniciar_jogo():
         tempo_atual = pygame.time.get_ticks() - inicio_jogo
 
         while indice_spawn < len(lista_tempo) and tempo_atual >= lista_tempo[indice_spawn]:
-            inimigo = Inimigo("assets\img\inimigos\_abobora.png")
+            inimigo = Inimigo(inimigo_abobora)
             distancia = int(v_inimigo * (tempo_viagem / 1000))
             inimigo.rect.x = WIDTH + distancia
             inimigo.rect.y = random.choice([HEIGHT - 230, HEIGHT - 400])
