@@ -5,6 +5,7 @@ from player import *
 from inimigo import *
 from tela_game_over import *
 from assets import *
+from pontuação import *
 
 def iniciar_jogo():
     pygame.init()
@@ -19,6 +20,14 @@ def iniciar_jogo():
     window = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Ghost Dash")
 
+    fundo1 = pygame.image.load(fundo_estrela).convert_alpha()
+    fundo2 = pygame.image.load(fundo_lua).convert_alpha()
+    fundo3 = pygame.image.load(fundo_nuvens).convert_alpha()
+
+    fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
+    fundo2 = pygame.transform.scale(fundo2, (1152, 648)) 
+    fundo3 = pygame.transform.scale(fundo3, (WIDTH, HEIGHT)) 
+
     # Posições iniciais
     x1 = x3 = 0
     x_lua = WIDTH - 200
@@ -28,6 +37,15 @@ def iniciar_jogo():
     sprites_atacando = carregar_sprites(fantasma_ataque, 5, tamanho=(250, 250))
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
+    x_zona = player.rect.centerx + 180
+    zona = ZonaPontuacao(
+        centro_baixo=(x_zona, HEIGHT - 190),
+        centro_alto=(x_zona, HEIGHT - 360),
+        raio_interno=30,
+        raio_externo=80
+    )
+    pontuacao_total = 0
+
 
     clock = pygame.time.Clock()
     FPS = 60
@@ -83,10 +101,17 @@ def iniciar_jogo():
 
         for inimigo in colisao:
             if player.estado == "ATACANDO":
-                print("Acertou")
+                pontos = zona.calcular_pontuacao(inimigo.rect, 100)
+                if pontos > 0:
+                    pontuacao_total += pontos
+                    print(f"Pontuação: +{pontos} (Total: {pontuacao_total})")
+                else:
+                    print("Atacou fora da zona")
             else:
-                print("Errou")
+                print("Errou o ataque")
             inimigo.kill()
+
+
 
         for inimigo in gp_inimigo:
             if inimigo.rect.x <= 0:
@@ -114,6 +139,11 @@ def iniciar_jogo():
 
         player.draw(window)
         gp_inimigo.draw(window)
+
+        zona.desenhar(window)
+
+        desenhar_pontuacao(window, pontuacao_total)
+
 
         pygame.display.update()
 

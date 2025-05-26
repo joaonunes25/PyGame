@@ -2,14 +2,11 @@ import pygame
 from jogoprincipal import WIDTH, HEIGHT 
 
 # Carrega camadas do fundo
-fundo1 = pygame.image.load("assets\img\_fundo1.png").convert_alpha()  # estrelas
-fundo2 = pygame.image.load("assets\img\_fundo2.png").convert_alpha()  # lua
-fundo3 = pygame.image.load("assets\img\_fundo3.png").convert_alpha()  # nuvens
+fundo_estrela = "assets\img\_fundo1.png"  
+fundo_lua = "assets\img\_fundo2.png"  
+fundo_nuvens = "assets\img\_fundo3.png"  
 
-fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
-fundo2 = pygame.transform.scale(fundo2, (1152, 648))  # lua maior
-fundo3 = pygame.transform.scale(fundo3, (WIDTH, HEIGHT))
-
+fundo_gameover = 'assets\img\gameover.png'
 
 fantasma_voando = "assets\img\_fantasma\parado\VOANDO"
 fantasma_pulo = "assets\img\_fantasma\parado\VOANDO"
@@ -27,3 +24,5 @@ def carregar_sprites(caminho_base, quantidade, tamanho=(150, 150)):
 inimigo_abobora = "assets\img\inimigos\_abobora.png"
 
 snd1 = "assets\snd\music\music1.mp3"
+
+fonte = "assets\_font\PressStart2P-Regular.ttf"

@@ -1,18 +1,19 @@
 import pygame
+from assets import *
 
 WIDTH = 1280
 HEIGHT = 720
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 def tela_game_over(window, WIDTH, HEIGHT):
-    fonte_grande = pygame.font.Font("assets\_font\PressStart2P-Regular.ttf", 50)
-    fonte_pequena = pygame.font.Font("assets\_font\PressStart2P-Regular.ttf", 20)
+    fonte_grande = pygame.font.Font(fonte, 50)
+    fonte_pequena = pygame.font.Font(fonte, 20)
 
     texto_gameover = fonte_grande.render("Você morreu!", True, (255, 255, 255))
     texto_reiniciar = fonte_pequena.render("Pressione R para reiniciar ou ESC para sair", True, (255,255,255))
 
-    fundo = pygame.image.load('assets\img\gameover.png')
-    fundo = pygame.transform.scale(fundo, (WIDTH, HEIGHT))
+    gameover = pygame.image.load(fundo_gameover).convert_alpha()
+    fundo = pygame.transform.scale(gameover, (WIDTH, HEIGHT))
 
     while True:
         for event in pygame.event.get():
