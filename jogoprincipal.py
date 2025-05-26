@@ -86,6 +86,7 @@ def iniciar_jogo():
         gp_inimigo.update()
 
         if colisao:
+            interagiu_com_player = True
             if player.estado == "PULANDO":
                 player.ataque(indice_inicio=2)
 
@@ -111,10 +112,12 @@ def iniciar_jogo():
                 print("Errou o ataque")
             inimigo.kill()
 
-
-
         for inimigo in gp_inimigo:
             if inimigo.rect.x <= 0:
+                if not inimigo.interagiu_com_player:
+                    player.vida -= 5
+                    if player.vida <= 0:
+                        player.vivo = False
                 inimigo.kill()
 
         # ----- Movimento dos fundos -----

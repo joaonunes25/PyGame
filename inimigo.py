@@ -5,7 +5,7 @@ from player import *
 class Inimigo(pygame.sprite.Sprite):
     def __init__(self, spritesheet_path):
         super().__init__()
-
+        self.interagiu_com_player = False
         self.sprites = self.carregar_spritesheet_em_lista(spritesheet_path, 4)
         self.index = 0
         self.image = self.sprites[self.index]
