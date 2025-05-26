@@ -37,7 +37,7 @@ def iniciar_jogo():
     sprites_atacando = carregar_sprites(fantasma_ataque, 5, tamanho=(250, 250))
 
     player = Player(sprites_parado, sprites_pulando, sprites_atacando)
-    x_zona = player.rect.centerx + 180
+    x_zona = player.rect.centerx + 190
     zona = ZonaPontuacao(
         centro_baixo=(x_zona, HEIGHT - 190),
         centro_alto=(x_zona, HEIGHT - 360),
@@ -105,11 +105,9 @@ def iniciar_jogo():
                 pontos = zona.calcular_pontuacao(inimigo.rect, 100)
                 if pontos > 0:
                     pontuacao_total += pontos
-                    print(f"Pontuação: +{pontos} (Total: {pontuacao_total})")
                 else:
-                    print("Atacou fora da zona")
-            else:
-                print("Errou o ataque")
+                    pontuacao_total = pontos
+            
             inimigo.kill()
 
         for inimigo in gp_inimigo:
