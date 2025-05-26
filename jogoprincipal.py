@@ -1,3 +1,4 @@
+# jogoprincipal.py
 import pygame
 import random
 import numpy as np
@@ -41,11 +42,10 @@ def iniciar_jogo():
     zona = ZonaPontuacao(
         centro_baixo=(x_zona, HEIGHT - 190),
         centro_alto=(x_zona, HEIGHT - 360),
-        raio_interno=30,
-        raio_externo=80
+        raio_interno=25,
+        raio_externo=40
     )
     pontuacao_total = 0
-
 
     clock = pygame.time.Clock()
     FPS = 60
@@ -78,45 +78,38 @@ def iniciar_jogo():
             if event.type == pygame.KEYDOWN:
                 if event.key in [pygame.K_k, pygame.K_j]:
                     player.jump()
+                    # Verifica pontuação para pulo
+                    for inimigo in gp_inimigo:
+                        tipo_acao = 'j' if event.key == pygame.K_j else 'k'
+                        pontos = zona.calcular_pontuacao(inimigo.rect, tipo_acao)
+                        if pontos > 0:
+                            pontuacao_total += pontos
+                            inimigo.kill()
                 elif event.key in [pygame.K_f, pygame.K_d]:
                     player.ataque(indice_inicio=2)
+                    # Verifica pontuação para ataque
+                    for inimigo in gp_inimigo:
+                        tipo_acao = 'd' if event.key == pygame.K_d else 'f'
+                        pontos = zona.calcular_pontuacao(inimigo.rect, tipo_acao)
+                        if pontos > 0:
+                            pontuacao_total += pontos
+                            inimigo.kill()
 
-        colisao = pygame.sprite.spritecollide(player, gp_inimigo, False)
         player.update()
         gp_inimigo.update()
 
-        if colisao:
-            interagiu_com_player = True
-            if player.estado == "PULANDO":
-                player.ataque(indice_inicio=2)
-
-            if player.estado != "ATACANDO":
+        # Verifica se inimigo passou sem ser acertado
+        for inimigo in gp_inimigo:
+            if inimigo.rect.right < 0:
                 player.vida -= 5
+                inimigo.kill()
                 if player.vida <= 0:
                     player.vivo = False
-            
+
         if not player.vivo:
             pygame.mixer.music.stop()
             tela_game_over(window, WIDTH, HEIGHT)
             iniciar_jogo()
-
-        for inimigo in colisao:
-            if player.estado == "ATACANDO":
-                pontos = zona.calcular_pontuacao(inimigo.rect, 100)
-                if pontos > 0:
-                    pontuacao_total += pontos
-                else:
-                    pontuacao_total = pontos
-            
-            inimigo.kill()
-
-        for inimigo in gp_inimigo:
-            if inimigo.rect.x <= 0:
-                if not inimigo.interagiu_com_player:
-                    player.vida -= 5
-                    if player.vida <= 0:
-                        player.vivo = False
-                inimigo.kill()
 
         # ----- Movimento dos fundos -----
         x1 -= 0.2
@@ -140,11 +133,8 @@ def iniciar_jogo():
 
         player.draw(window)
         gp_inimigo.draw(window)
-
         zona.desenhar(window)
-
         desenhar_pontuacao(window, pontuacao_total)
-
 
         pygame.display.update()
 

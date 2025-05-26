@@ -1,3 +1,4 @@
+# inimigo.py
 import pygame
 from config import * 
 from player import *
