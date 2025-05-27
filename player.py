@@ -31,8 +31,6 @@ class Player(pygame.sprite.Sprite):
         self.tempo_animacao = 70
         self.ultimo_update = pygame.time.get_ticks()
 
-
-
     def animar(self):
         nova_spritesheet = self.sprites_por_estado[self.estado]
         if nova_spritesheet != self.sprites:

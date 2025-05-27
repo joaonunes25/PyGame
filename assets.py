@@ -6,7 +6,7 @@ fundo_estrela = "assets\img\_fundo1.png"
 fundo_lua = "assets\img\_fundo2.png"  
 fundo_nuvens = "assets\img\_fundo3.png"  
 
-fundo_gameover = 'assets\img\gameover.png'
+fundo_gameover = 'assets\img\_fundogameover.png'
 
 fantasma_voando = "assets\img\_fantasma\parado\VOANDO"
 fantasma_pulo = "assets\img\_fantasma\parado\VOANDO"

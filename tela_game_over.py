@@ -1,11 +1,9 @@
 import pygame
 from assets import *
 
-WIDTH = 1280
-HEIGHT = 720
-window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 def tela_game_over(window, WIDTH, HEIGHT):
+    tela_atual = 5 
     fonte_grande = pygame.font.Font(fonte, 50)
     fonte_pequena = pygame.font.Font(fonte, 20)
 
@@ -23,6 +21,7 @@ def tela_game_over(window, WIDTH, HEIGHT):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
+                    tela_atual = 1
                     return
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()

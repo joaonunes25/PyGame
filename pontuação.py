@@ -1,4 +1,3 @@
-# pontuação.py
 import pygame
 from assets import fonte
 
@@ -10,27 +9,21 @@ class ZonaPontuacao:
         self.raio_externo = raio_externo
 
     def desenhar(self, tela):
+        # código sugerido pelo Chat GPT
         pygame.draw.circle(tela, (255, 255, 255), self.centro_baixo, self.raio_externo, 2)
         pygame.draw.circle(tela, (255, 255, 255), self.centro_baixo, self.raio_interno, 2)
         pygame.draw.circle(tela, (255, 255, 255), self.centro_alto, self.raio_externo, 2)
         pygame.draw.circle(tela, (255, 255, 255), self.centro_alto, self.raio_interno, 2)
 
-    def calcular_pontuacao(self, inimigo_rect, tipo_acao, pontuacao_base=100):
+    def calcular_pontuacao(self, inimigo_rect, pontuacao_base=100):
         ix, iy = inimigo_rect.center
-        
-        if tipo_acao in ['d', 'f']:  # Ataque - círculo de baixo
-            cx, cy = self.centro_baixo
-        elif tipo_acao in ['j', 'k']:  # Pulo - círculo de cima
-            cx, cy = self.centro_alto
-        else:
-            return 0
-            
-        distancia = ((cx - ix)**2 + (cy - iy)**2)**0.5
-        
-        if distancia <= self.raio_interno:
-            return pontuacao_base  # acerto interno (pontuação total)
-        elif distancia <= self.raio_externo:
-            return pontuacao_base // 2  # acerto externo (metade da pontuação)
+        for centro in [self.centro_baixo, self.centro_alto]:
+            cx, cy = centro
+            distancia = ((cx - ix)**2 + (cy - iy)**2)**0.5
+            if distancia <= self.raio_interno:
+                return pontuacao_base
+            elif distancia <= self.raio_externo:
+                return pontuacao_base // 2
         return 0
 
 
