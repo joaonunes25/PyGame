@@ -101,7 +101,8 @@ def iniciar_jogo():
             if not player.vivo:
                 pygame.mixer.music.stop()
                 tela_game_over(window, WIDTH, HEIGHT)
-
+                iniciar_jogo()
+                
             for inimigo in colisao:
                 if player.estado == "ATACANDO":
                     pontos = zona.calcular_pontuacao(inimigo.rect, 100)
