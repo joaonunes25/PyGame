@@ -26,7 +26,11 @@ FASES = {
         "musica": snd1
     },
     2: {
-        "fundo": (fundo_estrela, fundo_lua, fundo_nuvens), 
+        "fundo": (
+            "assets/img/tela2_fundo/1.png",
+            "assets/img/tela2_fundo/2.png",
+            "assets/img/tela2_fundo/3.png"
+        ),
         "inimigo_sprite": {
             "caminho": "assets/img/Halloween Characters/Bat/Png_animation/Bat",
             "quantidade": 4,
