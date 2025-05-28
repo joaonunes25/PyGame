@@ -3,13 +3,13 @@ from assets import *
 
 
 def tela_game_over(window, WIDTH, HEIGHT):
-    tela_atual = 5 
+    # Fontes
     fonte_grande = pygame.font.Font(fonte, 50)
     fonte_pequena = pygame.font.Font(fonte, 20)
-
+    # Textos
     texto_gameover = fonte_grande.render("Você morreu!", True, (255, 255, 255))
     texto_reiniciar = fonte_pequena.render("Pressione R para reiniciar ou ESC para sair", True, (255,255,255))
-
+    #  Fundo
     gameover = pygame.image.load(fundo_gameover).convert_alpha()
     fundo = pygame.transform.scale(gameover, (WIDTH, HEIGHT))
 
@@ -21,7 +21,6 @@ def tela_game_over(window, WIDTH, HEIGHT):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    tela_atual = 1
                     return
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()

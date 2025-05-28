@@ -1,10 +1,10 @@
 import pygame
-from config import * 
+from assets import *
 
 class Player(pygame.sprite.Sprite):
-
     def __init__(self, sprites_parado, sprites_pulando, sprites_atacando):
         super().__init__()
+
         self.sprites_por_estado = {
             'PARADO': sprites_parado,
             'PULANDO': sprites_pulando,
@@ -24,12 +24,13 @@ class Player(pygame.sprite.Sprite):
         self.no_chao = True
 
         self.duracao_pulo = 500
-        self.vida_max = 10000000
+        self.vida_max = 100
         self.vida = self.vida_max
         self.vivo = True
 
         self.tempo_animacao = 70
         self.ultimo_update = pygame.time.get_ticks()
+
 
     def animar(self):
         nova_spritesheet = self.sprites_por_estado[self.estado]
@@ -47,9 +48,9 @@ class Player(pygame.sprite.Sprite):
                 self.index = 0
             self.image = self.sprites[self.index]
 
+
     def update(self):
         self.animar()
-
         # Aumenta a gravidade para cair mais rápido
         if self.velocidade_y >= 0:
             self.gravidade = 1
@@ -78,15 +79,17 @@ class Player(pygame.sprite.Sprite):
         offset_x = 100 + (self.image.get_width() // 2) - (self.rect.width // 2)
         offset_y = self.y + (self.image.get_height() // 2) - (self.rect.height // 2)
         self.rect.topleft = (offset_x, offset_y)
-        # --------------------------------------------------------------------------------------------------
+
 
         if not self.vivo:
             print('morreu')
+
 
     def draw(self, window):
         if self.vivo:
             window.blit(self.image, (100, self.y))
             self.desenhar_barra_de_vida(window)
+
 
     def jump(self):
         if self.no_chao:  # só permite pular se estiver no chão
@@ -96,6 +99,7 @@ class Player(pygame.sprite.Sprite):
             self.tempo_pulo = pygame.time.get_ticks()
             self.estado = "PULANDO"
 
+
     def ataque(self, indice_inicio=0):
         if self.estado != 'ATACANDO':
             self.estado = 'ATACANDO'
@@ -103,19 +107,17 @@ class Player(pygame.sprite.Sprite):
         self.index = indice_inicio
         self.ultimo_update = pygame.time.get_ticks()
 
+
     def desenhar_barra_de_vida(self, window):
         if self.vivo:
             l_barra = 400
             h_barra = 50
             x = 420
-            y = HEIGHT
-
+            y = HEIGHT - 100
             # Desenha a barra de vida total
-            pygame.draw.rect(window, RED, (x, y, l_barra, h_barra))
-
+            pygame.draw.rect(window, (255,0,0), (x, y, l_barra, h_barra))
             # Calcula a proporção vida/vida total
             proporcao = self.vida / self.vida_max
             l_vida = l_barra * proporcao
-
             # Desenha a vida atual do player
-            pygame.draw.rect(window, GREEN, (x, y, l_vida, h_barra))
+            pygame.draw.rect(window, (0,255,0), (x, y, l_vida, h_barra))

@@ -1,6 +1,6 @@
-# main.py
+
 import pygame
-from jogoprincipal import iniciar_jogo
+from jogoprincipal import iniciar_fase
 
 pygame.init()
-iniciar_jogo()       # inicia o jogo em si
+iniciar_fase(numero_fase=1) # inicia o jogo
