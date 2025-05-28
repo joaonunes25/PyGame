@@ -24,7 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.no_chao = True
 
         self.duracao_pulo = 500
-        self.vida_max = 100
+        self.vida_max = 10000000
         self.vida = self.vida_max
         self.vivo = True
 
