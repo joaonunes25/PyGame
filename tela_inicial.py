@@ -1,54 +1,67 @@
-import pygame
-from assets import *
-from tela_instrucoes import *
+import pygame  # biblioteca principal para jogos em Python
+from tela_instrucoes import tela_instrucoes  # função para exibir a tela de instruções
+
+# Diretório absoluto onde estão armazenados os quadros da animação
+IMGS_DIR = r"C:\PYGAME\PyGame-2\assets\img\tela_inicial"
+
 
 def tela_inicial(window, WIDTH, HEIGHT):
-    # Carregando fontes
-    fonte_grande = pygame.font.Font(fonte, 50)
-    fonte_pequena = pygame.font.Font(fonte, 20)
-    # fonte_input = pygame.font.Font(fonte, 20)
+    """
+    Exibe a tela inicial animada usando quadros pré-carregados.
 
-    # Textos
-    texto_jogo = fonte_grande.render("Ghost Dash", True, (255, 255, 255))
-    texto_iniciar = fonte_pequena.render("Aerte SPACE para instruções ou ENTER para jogar", True, (255,255,255))
+    Args:
+        window (pygame.Surface): superfície principal onde será desenhada a animação.
+        WIDTH (int): largura da janela para escalonamento dos quadros.
+        HEIGHT (int): altura da janela para escalonamento dos quadros.
+    """
+    # Número total de quadros extraídos do GIF original
+    TOTAL_FRAMES = 155
 
-    # Imagens
-    inicial = pygame.image.load(fundo_inicial).convert_alpha()
-    fundo = pygame.transform.scale(inicial, (WIDTH, HEIGHT))
+    # Lista para armazenar todos os Surfaces dos quadros animados
+    frames = []
+    for i in range(TOTAL_FRAMES):
+        # Monta o caminho do arquivo de imagem do quadro 'i'
+        path = f"{IMGS_DIR}/tela inicial-{i:04d}.jpg"
+        # Carrega a imagem e converte para Surface com suporte a transparência
+        img = pygame.image.load(path).convert_alpha()
+        # Escalona a imagem para preencher toda a janela
+        img = pygame.transform.scale(img, (WIDTH, HEIGHT))
+        # Adiciona o Surface à lista de quadros
+        frames.append(img)
 
-    # Player
-    ativo = True
-    cor_input = (255,255,255)
-    input_box = pygame.Rect(WIDTH//2 - 150, HEIGHT//2, 300, 40)
+    # Cria um relógio para controlar o frame rate da animação
+    clock = pygame.time.Clock()
+    # Define quantos quadros por segundo a animação deve exibir
+    fps_anim = 60
+    # Índice do quadro que será desenhado a cada iteração
+    indice = 0
 
+    # Loop principal da tela inicial
     while True:
+        # Processa eventos de teclado e janela
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                # Fecha o Pygame e encerra o programa imediatamente
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if ativo:
-                    if event.key == pygame.K_RETURN:
-                        # return nome  # retorna o nome digitado
-                        return
-                    elif event.key == pygame.K_SPACE:
-                        tela_instrucoes(window, WIDTH, HEIGHT)
-                    elif event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        exit()
-                    # elif event.key == pygame.K_BACKSPACE:
-                    #     nome = nome[:-1]
-                    # else:
-                    #     if len(nome) < 20:  # limite de caracteres
-                    #         nome += event.unicode
+                if event.key == pygame.K_RETURN:
+                    # Sai da tela inicial e retorna para iniciar o jogo
+                    return
+                elif event.key == pygame.K_SPACE:
+                    # Exibe a tela de instruções antes de retornar
+                    tela_instrucoes(window, WIDTH, HEIGHT)
+                elif event.key == pygame.K_ESCAPE:
+                    # Encerra o jogo se ESC for pressionado
+                    pygame.quit()
+                    exit()
 
-    # Desenhando tela
-        window.blit(fundo, (0,0))
-        window.blit(texto_jogo, (WIDTH//2 - texto_jogo.get_width()//2, 70))
-        window.blit(texto_iniciar, (WIDTH//2 - texto_iniciar.get_width()//2, HEIGHT - 60))
+        # Desenha o quadro atual da animação na posição (0,0)
+        window.blit(frames[indice], (0, 0))
+        # Avança para o próximo quadro, reiniciando após o último
+        indice = (indice + 1) % TOTAL_FRAMES
 
-        # pygame.draw.rect(window, cor_input, input_box, 2)
-        # texto_nome = fonte_input.render(nome, True, (255, 255, 255))
-        # window.blit(texto_nome, (input_box.x + 10, input_box.y + 5))
-
+        # Atualiza o display com o conteúdo desenhado
         pygame.display.update()
+        # Controla a velocidade do loop para fps_anim quadros por segundo
+        clock.tick(fps_anim)
