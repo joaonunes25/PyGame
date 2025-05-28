@@ -20,7 +20,7 @@ FASES = {
             "quantidade": 4,
             "spritesheet": True
         },
-        "bpm": 113,
+        "bpm": 56.5,
         "duracao": 94,
         "velocidade_inimigo": 60,
         "musica": snd1
@@ -32,7 +32,7 @@ FASES = {
             "quantidade": 4,
             "spritesheet": False
         },
-        "bpm": 139,
+        "bpm": 68.5,
         "duracao": 166,
         "velocidade_inimigo": 85,
         "musica": snd2
@@ -111,7 +111,7 @@ def iniciar_fase(numero_fase):
     pygame.mixer.music.play()
 
     game = True
-
+    tipo_acao = 'd'
     while game:
         
         clock.tick(FPS)
@@ -158,12 +158,29 @@ def iniciar_fase(numero_fase):
         # --------------------------------Tratando eventos-----------------------------------------
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game = False
+                pygame.quit()
+                exit()
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
             if event.type == pygame.KEYDOWN:
                 if event.key in [pygame.K_k, pygame.K_j]:
+                    tipo_acao = 'j' if event.key == pygame.K_j else 'k'
                     player.jump()
+                    player.ataque(indice_inicio=2)  # manter sprite de ataque mesmo no pulo
+
                 elif event.key in [pygame.K_f, pygame.K_d]:
+                    tipo_acao = 'd' if event.key == pygame.K_d else 'f'
                     player.ataque(indice_inicio=2)
+
+                # verifica pontuação
+                for inimigo in gp_inimigo:
+                    pontos = zona.calcular_pontuacao(inimigo.rect, tipo_acao, 100)
+                    if pontos > 0:
+                        pontuacao_total += pontos
+                        inimigo.kill()
 
         colisao = pygame.sprite.spritecollide(player, gp_inimigo, False)
         player.update()
@@ -174,8 +191,9 @@ def iniciar_fase(numero_fase):
             if player.estado == "PULANDO":
                 player.ataque(indice_inicio=2)
 
-            if player.estado != "ATACANDO":
+            if player.estado != "ATACANDO" and not inimigo.interagiu_com_player:
                 player.vida -= 5
+                inimigo.interagiu_com_player = True
                 if player.vida <= 0:
                     player.vivo = False
             
@@ -186,14 +204,6 @@ def iniciar_fase(numero_fase):
             # from ranking import tela_ranking  # importe a função do ranking se necessário
             # tela_ranking(window, WIDTH, HEIGHT)  # exibe o ranking
             return  # sai da função para evitar reinício imediato
-            
-        for inimigo in colisao:
-            if player.estado == "ATACANDO":
-                pontos = zona.calcular_pontuacao(inimigo.rect, 100) # calcula a pontuação
-                if pontos > 0:
-                    pontuacao_total += pontos
-                else:
-                    pontuacao_total = pontuacao_total
             
             inimigo.kill() # Se o inimigo colide com o jogador e ele está atacando, o inimido é removido
 
