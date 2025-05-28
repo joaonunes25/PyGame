@@ -20,6 +20,15 @@ fundo_inicial = "assets\img\_fundoiniicial.png"
 fundo_instrucoes = "assets/img/tela_instrucoes/*.*"
 fundo_vitoria_suprema = "assets\img\_tela_vitoria_suprema (2).png"
 fundo_vitoria = "assets\img\_telavitoria.png"
+
+#SPRITES HISTORIA
+historia_imgs = [
+    "assets/img/historia/h1.png",
+    "assets/img/historia/h2.png",
+    "assets/img/historia/h3.png",
+    "assets/img/historia/h4.png",
+]
+
  
 # SPRITES DO FANTASMA
 fantasma_voando = "assets\img\_fantasma\parado\VOANDO"

@@ -4,6 +4,7 @@ import numpy as np
 from player import *
 from inimigo import *
 from tela_inicial import tela_inicial
+from historia import tela_historia
 from tela_game_over import tela_game_over
 from assets import *
 from pontuação import *
@@ -55,6 +56,7 @@ def iniciar_fase(numero_fase):
 
     if numero_fase == 1:
         tela_inicial(window, WIDTH, HEIGHT)
+        tela_historia(window, WIDTH, HEIGHT)
 
     # Fundos
     fundo1 = pygame.image.load(config["fundo"][0]).convert_alpha()

@@ -55,6 +55,7 @@ tela_vitoria.py: exibe a tela de vitória da primeira fase
 tela_vitoria_suprema.py: exibe a tela de vitória da segunda fase
 tela_game_over: exibe a tela de game over ao perder as fases
 tela_instrucoes.py: exibe as instruções de como jogar
+tela_historia.py: exibe a história após a tela inicial
 
 COMO EXECUTAR O JOGO:
 
