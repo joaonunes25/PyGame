@@ -63,7 +63,6 @@ def iniciar_fase(numero_fase):
     fundo1 = pygame.transform.scale(fundo1, (WIDTH, HEIGHT))
     fundo2 = pygame.transform.scale(fundo2, (1152, 648))
     fundo3 = pygame.transform.scale(fundo3, (WIDTH, HEIGHT))
-
     # Posições iniciais
     x1 = x3 = 0
     x_lua = WIDTH - 200
@@ -112,6 +111,7 @@ def iniciar_fase(numero_fase):
 
     # Música
     pygame.mixer.music.load(config["musica"])
+    som_soco = pygame.mixer.Sound("assets/snd/fist-punch-or-kick-7171.mp3")
     pygame.mixer.music.play()
 
     game = True
@@ -174,10 +174,12 @@ def iniciar_fase(numero_fase):
                     tipo_acao = 'j' if event.key == pygame.K_j else 'k'
                     player.jump()
                     player.ataque(indice_inicio=2)  # manter sprite de ataque mesmo no pulo
+                    som_soco.play()
 
                 elif event.key in [pygame.K_f, pygame.K_d]:
                     tipo_acao = 'd' if event.key == pygame.K_d else 'f'
                     player.ataque(indice_inicio=2)
+                    som_soco.play()
 
                 # verifica pontuação
                 for inimigo in gp_inimigo:
