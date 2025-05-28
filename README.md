@@ -2,8 +2,8 @@
 
 INTEGRANTES DO GRUPO:
 
-Juliana Cunha de Santana
-Felipe Correia da Costa
+Juliana Cunha de Santana,
+Felipe Correia da Costa,
 João Marcos Nunes
 
 SOBRE O JOGO:
