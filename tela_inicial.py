@@ -2,6 +2,9 @@ import pygame  # biblioteca principal para jogos em Python
 from tela_instrucoes import tela_instrucoes  # função para exibir a tela de instruções
 from assets import *
 
+
+# CÓDIGO GERADO PELO CHAT GPT
+
 def tela_inicial(window, WIDTH, HEIGHT):
     """
     Exibe a tela inicial animada usando quadros pré-carregados.

@@ -14,12 +14,14 @@ fundo_ceu = "assets/img/tela2_fundo/1.png"
 fundo_nuvem1 = "assets/img/tela2_fundo/2.png"
 fundo_nuvem2 = "assets/img/tela2_fundo/3.png"
 
+# FUNDOS DAS TELAS
 fundo_gameover = 'assets\img\_fundogameover.png'
 fundo_inicial = "assets\img\_fundoiniicial.png"
 fundo_instrucoes = "assets/img/tela_instrucoes/*.*"
 fundo_vitoria_suprema = "assets\img\_tela_vitoria_suprema (2).png"
 fundo_vitoria = "assets\img\_telavitoria.png"
-
+ 
+# SPRITES DO FANTASMA
 fantasma_voando = "assets\img\_fantasma\parado\VOANDO"
 fantasma_pulo = "assets\img\_fantasma\parado\VOANDO"
 fantasma_ataque = "assets\img\_fantasma\_atacando\_atacando"
@@ -45,15 +47,18 @@ def carregar_sprites(caminho_base, quantidade, tamanho=(150, 150)):
             list: Lista de superfícies do Pygame com as imagens carregadas e redimensionadas.
         """
 
+# SPRITES DOS INIMIGOS
 inimigo_abobora = "assets\img\inimigos\_abobora.png"
 inimigo_bat_ = "assets/img/Halloween Characters/Bat/Png_animation/Bat"
 
+# SONS USADOS NO JOGO
 snd1 = "assets\snd\music1.mp3"
 snd2 = "assets\snd\Ghost Dash (1).mp3"
 snd_soco = "assets/snd/fist-punch-or-kick-7171.mp3"
 
+
+# FONTE USADA PARA AS TELAS
 fonte = "assets\_font\PressStart2P-Regular.ttf"
 
 # Diretório absoluto onde estão armazenados os quadros da animação
-
 IMGS_DIR = "assets\img\_tela_inicial"

@@ -88,3 +88,21 @@ class Inimigo(pygame.sprite.Sprite):
             direcao = direcao.normalize()
             movimento = direcao * velocidade_x
             self.rect.centerx += movimento.x
+    """
+    Move o objeto atual em direção ao jogador ao longo do eixo X.
+
+    Parâmetros:
+    - player: objeto que possui um atributo `rect.center`, representando sua posição central.
+    - velocidade_x: velocidade com que o objeto se moverá na direção do jogador.
+
+    Funcionamento:
+    1. Calcula a posição atual do objeto e do jogador como vetores.
+    2. Determina a direção do jogador em relação ao objeto.
+    3. Normaliza esse vetor de direção (mantém o sentido, mas com comprimento 1).
+    4. Multiplica a direção pela velocidade para obter o vetor de movimento.
+    5. Atualiza a posição horizontal (`centerx`) do objeto com base nesse vetor.
+
+    Nota:
+    - O movimento acontece apenas no eixo X (`centerx`), ou seja, horizontalmente.
+    - Se o vetor direção for nulo (mesma posição), não há movimento.
+    """

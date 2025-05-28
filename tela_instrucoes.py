@@ -2,6 +2,8 @@ import pygame
 import glob
 from assets import *  # importa variáveis de caminho (sprites, fontes, sons etc.)
 
+# CÓDIGO GERADO PELO CHAT GPT
+
 def tela_instrucoes(window, WIDTH, HEIGHT):
     """
     Exibe a tela de instruções animada a partir de uma sequência de imagens

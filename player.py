@@ -47,7 +47,28 @@ class Player(pygame.sprite.Sprite):
                     self.estado = "PULANDO" if self.pulo else "PARADO"
                 self.index = 0
             self.image = self.sprites[self.index]
+    """
+    Atualiza a animação do objeto com base no estado atual.
 
+    Esta função gerencia a troca de sprites de animação com base no tempo e no estado do personagem,
+    como "PARADO", "PULANDO" ou "ATACANDO".
+
+    Funcionamento:
+    1. Verifica se o estado (`self.estado`) mudou e, se sim, carrega a nova spritesheet correspondente,
+       reiniciando o índice de animação (`self.index`).
+    2. Verifica se já se passou tempo suficiente desde a última atualização com base em `self.tempo_animacao`.
+    3. Se sim, avança para o próximo frame da animação.
+    4. Quando chega ao fim da sequência de sprites:
+       - Se o estado atual for "ATACANDO", muda para "PULANDO" (caso esteja no ar) ou "PARADO".
+       - Reinicia o índice da animação.
+    5. Atualiza a imagem atual do objeto (`self.image`) com o frame correspondente da lista `self.sprites`.
+
+    Requisitos:
+    - `self.sprites_por_estado`: dicionário com listas de sprites para cada estado.
+    - `self.estado`: estado atual do personagem.
+    - `self.tempo_animacao`: intervalo entre atualizações de frames.
+    - `self.pulo`: booleano indicando se o personagem está no ar.
+    """
 
     def update(self):
         self.animar()
@@ -83,7 +104,8 @@ class Player(pygame.sprite.Sprite):
 
         if not self.vivo:
             print('morreu')
-
+    ''' Atualiza o estado do player no loop principal'''
+    
 
     def draw(self, window):
         if self.vivo:

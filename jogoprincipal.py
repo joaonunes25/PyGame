@@ -21,7 +21,7 @@ FASES = {
             "spritesheet": True
         },
         "bpm": 56.5,
-        "duracao": 94,
+        "duracao": 94,  
         "velocidade_inimigo": 60,
         "musica": snd1
     },
@@ -66,6 +66,7 @@ def iniciar_fase(numero_fase):
     # Posições iniciais
     x1 = x3 = 0
     x_lua = WIDTH - 200
+
 
     sprites_parado = carregar_sprites(fantasma_voando, 4, tamanho=(250, 250))
     sprites_pulando = carregar_sprites(fantasma_pulo, 4, tamanho=(250, 250))
@@ -205,11 +206,8 @@ def iniciar_fase(numero_fase):
             
         if not player.vivo:
             pygame.mixer.music.stop()
-            # atualizar_ranking(nome_jogador, pontuacao_total)  # atualiza o ranking com o nome passado
             tela_game_over(window, WIDTH, HEIGHT)
-            # from ranking import tela_ranking  # importe a função do ranking se necessário
-            # tela_ranking(window, WIDTH, HEIGHT)  # exibe o ranking
-            return  # sai da função para evitar reinício imediato
+            iniciar_fase(1)
             
             inimigo.kill() # Se o inimigo colide com o jogador e ele está atacando, o inimido é removido
 
@@ -226,7 +224,8 @@ def iniciar_fase(numero_fase):
                 iniciar_fase(numero_fase + 1)
             else:
                 tela_vitoria_suprema(window, WIDTH, HEIGHT)
-                
+                iniciar_fase(1)
+
         # Movimento dos fundos
         x1 -= 0.2
         x3 -= 1.2
