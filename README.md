@@ -6,6 +6,11 @@ Juliana Cunha de Santana,
 Felipe Correia da Costa,
 João Marcos Nunes
 
+LINK PARA VÍDEO NO YOUTUBE:
+
+O vídeo demonstra o funcionamento do jogo.
+Link: https://youtu.be/b86vAGpWn_Y
+
 SOBRE O JOGO:
 
 Ghost Dash é um jogo rítmico em estilo runner, onde você controla um fantasminha que deve atacar inimigos no ritmo da música para salvar seus companheiros capturados por abóboras e morcegos.
