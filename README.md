@@ -1,4 +1,4 @@
-# PyGame
+# GHOST DASH
 
 INTEGRANTES DO GRUPO:
 
