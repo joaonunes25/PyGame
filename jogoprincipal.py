@@ -16,7 +16,7 @@ FASES = {
     1: {
         "fundo": (fundo_estrela, fundo_lua, fundo_nuvens),
         "inimigo_sprite": {
-            "caminho": "assets/img/inimigos/_abobora.png",
+            "caminho": inimigo_abobora,
             "quantidade": 4,
             "spritesheet": True
         },
@@ -27,12 +27,12 @@ FASES = {
     },
     2: {
         "fundo": (
-            "assets/img/tela2_fundo/1.png",
-            "assets/img/tela2_fundo/2.png",
-            "assets/img/tela2_fundo/3.png"
+            fundo_ceu,
+            fundo_nuvem1,
+            fundo_nuvem2
         ),
         "inimigo_sprite": {
-            "caminho": "assets/img/Halloween Characters/Bat/Png_animation/Bat",
+            "caminho": inimigo_bat_,
             "quantidade": 4,
             "spritesheet": False
         },
@@ -111,7 +111,7 @@ def iniciar_fase(numero_fase):
 
     # Música
     pygame.mixer.music.load(config["musica"])
-    som_soco = pygame.mixer.Sound("assets/snd/fist-punch-or-kick-7171.mp3")
+    som_soco = pygame.mixer.Sound(snd_soco)
     pygame.mixer.music.play()
 
     game = True
@@ -140,7 +140,7 @@ def iniciar_fase(numero_fase):
                 como no caso do inimigo "morcego", cujas animações são fornecidas como imagens individuais.
                 """
 
-                inimigo_bat = carregar_sprites(r"assets\img\Halloween Characters\Bat\Png_animation\Bat", 4)
+                inimigo_bat = carregar_sprites(inimigo_bat_, 4)
             sprite_cfg = config['inimigo_sprite']
             inimigo = Inimigo(
                 spritesource=sprite_cfg['caminho'],
@@ -153,7 +153,7 @@ def iniciar_fase(numero_fase):
                 inimigo.rect.y = random.choice([HEIGHT - 230, HEIGHT - 400])
             else:
                 inimigo.rect.y = random.choice([HEIGHT - 430, HEIGHT - 280])
-                print(f'pos1:{inimigo.rect.y}')
+                
 
             gp_inimigo.add(inimigo)
 

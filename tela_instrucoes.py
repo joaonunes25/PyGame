@@ -21,7 +21,7 @@ def tela_instrucoes(window, WIDTH, HEIGHT):
     # Carregamento dos frames da animação (209 imagens convertidas do GIF)
     # ------------------------------------------------------------------
     # Consulta todos os arquivos dentro da pasta de instruções
-    frame_paths = sorted(glob.glob("assets/img/tela_instrucoes/*.*"))
+    frame_paths = sorted(glob.glob(fundo_instrucoes))
     # Se nenhum arquivo for encontrado, interrompe com mensagem de erro clara
     if not frame_paths:
         raise FileNotFoundError("Nenhum frame encontrado em assets/img/tela_instrucoes")

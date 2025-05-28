@@ -13,9 +13,6 @@ def tela_vitoria_suprema (window, WIDTH, HEIGHT):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    ranking(window, WIDTH, HEIGHT)
-
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     exit()

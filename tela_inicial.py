@@ -1,9 +1,6 @@
 import pygame  # biblioteca principal para jogos em Python
 from tela_instrucoes import tela_instrucoes  # função para exibir a tela de instruções
-
-# Diretório absoluto onde estão armazenados os quadros da animação
-IMGS_DIR = r"assets\img\_tela_inicial"
-
+from assets import *
 
 def tela_inicial(window, WIDTH, HEIGHT):
     """
